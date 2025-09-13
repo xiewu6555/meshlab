@@ -3,6 +3,22 @@
 # SPDX-License-Identifier: BSL-1.0
 
 cmake_minimum_required(VERSION 3.18)
+
+# vcpkg支持 - 必须在project()之前设置
+option(MESHLAB_USE_VCPKG "Use vcpkg for dependency management" OFF)
+
+if(MESHLAB_USE_VCPKG AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    # 如果环境变量中有CMAKE_TOOLCHAIN_FILE，使用它
+    if(DEFINED ENV{CMAKE_TOOLCHAIN_FILE})
+        set(CMAKE_TOOLCHAIN_FILE "$ENV{CMAKE_TOOLCHAIN_FILE}")
+    else()
+        # 否则使用项目本地的vcpkg
+        set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+    endif()
+
+    message(STATUS "Using vcpkg toolchain: ${CMAKE_TOOLCHAIN_FILE}")
+endif()
+
 project(MeshLab)
 
 ### Build options

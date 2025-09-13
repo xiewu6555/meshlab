@@ -1,0 +1,64 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "vcpkg-default",
+      "displayName": "vcpkg Default Configuration",
+      "description": "Default build using vcpkg with core dependencies",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/vcpkg",
+      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "MESHLAB_USE_VCPKG": "ON",
+        "VCPKG_MANIFEST_FEATURES": "core",
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+      "environment": {
+        "VCPKG_ROOT": "${sourceDir}/vcpkg",
+        "VCPKG_DEFAULT_TRIPLET": "x64-windows"
+      }
+    },
+    {
+      "name": "vcpkg-debug",
+      "displayName": "vcpkg Debug Configuration",
+      "description": "Debug build using vcpkg with core dependencies",
+      "inherits": "vcpkg-default",
+      "binaryDir": "${sourceDir}/build/vcpkg-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "MESHLAB_ENABLE_DEBUG_LOG_FILE": "ON"
+      }
+    },
+    {
+      "name": "vcpkg-with-plugins",
+      "displayName": "vcpkg with All Plugins",
+      "description": "Full build using vcpkg with all plugin dependencies",
+      "inherits": "vcpkg-default",
+      "binaryDir": "${sourceDir}/build/vcpkg-plugins",
+      "cacheVariables": {
+        "VCPKG_MANIFEST_FEATURES": "core;plugins;tools"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vcpkg-default-build",
+      "displayName": "Build vcpkg Default",
+      "configurePreset": "vcpkg-default",
+      "jobs": 0
+    },
+    {
+      "name": "vcpkg-debug-build",
+      "displayName": "Build vcpkg Debug",
+      "configurePreset": "vcpkg-debug",
+      "jobs": 0
+    },
+    {
+      "name": "vcpkg-plugins-build",
+      "displayName": "Build vcpkg with Plugins",
+      "configurePreset": "vcpkg-with-plugins",
+      "jobs": 0
+    }
+  ]
+}

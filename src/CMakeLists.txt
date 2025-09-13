@@ -10,19 +10,38 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/meshlab_tools.cmake")
 #message(STATUS "Searching for required components")
 find_package(OpenGL REQUIRED)
 
-find_package(
-	Qt5
-	COMPONENTS OpenGL Xml Network
-	REQUIRED)
+# Qt5依赖处理
+if(MESHLAB_USE_VCPKG)
+    # vcpkg管理的Qt5
+    find_package(Qt5 REQUIRED COMPONENTS Core Widgets OpenGL Xml Network)
+else()
+    # 传统方式
+    find_package(
+        Qt5
+        COMPONENTS OpenGL Xml Network
+        REQUIRED)
+endif()
+
 if (Qt5_VERSION VERSION_LESS 5.15.0)
 	message(FATAL_ERROR "Minimum supported Qt5 version is 5.15!")
 endif()
+
 find_package(OpenMP)
 find_package(Threads)
 
 message(STATUS "Searching for required components with bundled fallback")
-find_package(GLEW QUIET)
-find_package(Eigen3 QUIET)
+
+# GLEW和Eigen3处理
+if(MESHLAB_USE_VCPKG)
+    # vcpkg优先
+    find_package(GLEW REQUIRED)
+    find_package(Eigen3 REQUIRED)
+    message(STATUS "Using vcpkg managed dependencies")
+else()
+    # 回退到bundled版本
+    find_package(GLEW QUIET)
+    find_package(Eigen3 QUIET)
+endif()
 
 set(MESHLAB_RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../resources)
 

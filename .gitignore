@@ -22,6 +22,12 @@
 build/*
 install/*
 
+# vcpkg独立实例和相关文件
+vcpkg/
+vcpkg_env.sh
+vcpkg_env.bat
+vcpkg_installed
+
 # external libraries automatically downloaded by cmake
 src/external/easyexif*/test-images/*
 src/external/glew*/auto/*

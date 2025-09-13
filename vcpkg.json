@@ -1,0 +1,48 @@
+{
+  "name": "meshlab",
+  "version": "2025.7.0",
+  "description": "MeshLab - 3D mesh processing and editing system",
+  "homepage": "https://www.meshlab.net/",
+  "documentation": "https://github.com/cnr-isti-vclab/meshlab",
+  "license": "GPL-3.0-or-later",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    },
+    "qt5-base",
+    "opengl",
+    "glew",
+    "eigen3"
+  ],
+  "features": {
+    "meshlab-plugins": {
+      "description": "Additional dependencies for MeshLab plugins",
+      "dependencies": [
+        "boost-algorithm",
+        "boost-filesystem",
+        "boost-thread",
+        "boost-system",
+        "cgal",
+        "embree4",
+        "qhull",
+        "muparser",
+        "tbb",
+        "xerces-c"
+      ]
+    },
+    "meshlab-tools": {
+      "description": "Development tools",
+      "dependencies": [
+        {
+          "name": "ninja",
+          "host": true
+        }
+      ]
+    }
+  }
+}
